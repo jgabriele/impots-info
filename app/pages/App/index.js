@@ -11,7 +11,7 @@ export default ({ route }) =>
           {
             routes[0].routes
               .map(r => (
-                <li>
+                <li key={r.path}>
                   <Link to={r.path}>{r.title}</Link>
                 </li>
               ))

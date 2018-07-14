@@ -14,13 +14,13 @@ export default [
         component: Calculator
       },
       {
-        path: '/comment-est-calcule-l-impot',
-        title: 'Comment est calculé l\'impôt?',
+        path: '/comment-est-calcule-mon-impot',
+        title: 'Comment est calculé mon impôt sur le revenu?',
         component: TaxComputingExplanation
       },
       {
         path: '/a-quoi-sert-l-impot',
-        title: 'À quoi sert l\'impôt?',
+        title: 'À quoi sert l\'impôt sur le revenu?',
         component: TaxUseExplanation
       }
     ]

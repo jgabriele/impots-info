@@ -1,23 +1,35 @@
 const path = require('path')
 const webpack = require('webpack')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: ['./app/index.js'],
+  entry: {
+    bundle: './app/index.js',
+  },
   mode: 'development',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
       {
-        test: /.js$/,
-        loader: 'babel-loader',
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+        },
         include: path.join(__dirname, 'app'),
         exclude: /node_modules/,
       }
     ]
-  }
+  },
+  // resolve: {
+  //   alias: {
+  //     App: path.resolve(__dirname, 'app/'),
+  //     Components: path.resolve(__dirname, 'app/components/'),
+  //     Pages: path.resolve(__dirname, 'app/pages/'),
+  //     Server: path.resolve(__dirname, 'app/server/'),
+  //     State: path.resolve(__dirname, 'app/state/')
+  //   }
+  // }
 }

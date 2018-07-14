@@ -5,9 +5,11 @@ import { renderRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
+import { ThemeProvider } from 'react-jss'
 
 import routes from '../routes'
 import reducers from '../state/reducers'
+import theme from '../theme'
 
 const store = createStore(
   reducers, applyMiddleware(thunk)
@@ -23,11 +25,13 @@ export default function router(req, res) {
   return getData()
     .then(resp => {
       const html = renderToString(
-        <Provider store={store}>
-          <StaticRouter context={{}} location={req.url} >
-            {renderRoutes(routes)}
-          </StaticRouter>
-        </Provider>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>
+            <StaticRouter context={{}} location={req.url} >
+              {renderRoutes(routes)}
+            </StaticRouter>
+          </Provider>
+        </ThemeProvider>
       )
 
       res.status(200).send(renderFullPage(html, { toto: true }))
@@ -41,6 +45,8 @@ function renderFullPage(html, preloadedState) {
         <html>
         <head>
             <title>Mes impots</title>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         </head>
         <body>
             <div id="app">${html}</div>
