@@ -1,0 +1,16 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "indent": ["error", 2],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "space-before-blocks": ["error", "always"],
+    "quotes": ["error", "single"]
+  }
+}
