@@ -1,17 +1,27 @@
 import App from './pages/App'
-import Home from './pages/Home'
-import Source from './pages/Source'
+import Calculator from './pages/Calculator'
+import TaxComputingExplanation from './pages/TaxComputingExplanation'
+import TaxUseExplanation from './pages/TaxUseExplanation'
 
 export default [
   {
     component: App,
     routes: [
-      { path: '/',
+      {
+        path: '/',
+        title: 'Calculer mon impôt',
         exact: true,
-        component: Home
+        component: Calculator
       },
-      { path: '/source',
-        component: Source
+      {
+        path: '/comment-est-calcule-l-impot',
+        title: 'Comment est calculé l\'impôt?',
+        component: TaxComputingExplanation
+      },
+      {
+        path: '/a-quoi-sert-l-impot',
+        title: 'À quoi sert l\'impôt?',
+        component: TaxUseExplanation
       }
     ]
   }

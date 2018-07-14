@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -6,11 +7,26 @@
       "jsx": true
     }
   },
+
   "rules": {
     "semi": ["error", "never"],
     "indent": ["error", 2],
     "comma-spacing": ["error", { "before": false, "after": true }],
+
     "space-before-blocks": ["error", "always"],
-    "quotes": ["error", "single"]
+    "padded-blocks": ["error", "never"],
+    "block-spacing": ["error", "always"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+
+    "object-curly-spacing": ["error", "always"],
+    "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": true }],
+
+    "quotes": ["error", "single"],
+
+    "prefer-const": ["error", {
+        "destructuring": "all",
+        "ignoreReadBeforeAssign": false
+    }],
+    "no-var": "error"
   }
 }

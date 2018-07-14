@@ -1,21 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
-import Home from '../../pages/Home'
-import Source from '../../pages/Source'
+import routes from '../../routes'
 
-
-export default ({route}) =>
+export default ({ route }) =>
   (
     <div>
       <nav>
         <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/source">Source</Link>
-          </li>
+          {
+            routes[0].routes
+              .map(r => (
+                <li>
+                  <Link to={r.path}>{r.title}</Link>
+                </li>
+              ))
+          }
         </ul>
       </nav>
       {renderRoutes(route.routes)}

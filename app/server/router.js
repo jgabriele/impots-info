@@ -2,8 +2,16 @@ import { renderToString } from 'react-dom/server'
 import React from 'react'
 import { matchPath, StaticRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
 import routes from '../routes'
+import reducers from '../state/reducers'
+
+const store = createStore(
+  reducers, applyMiddleware(thunk)
+)
 
 function getData() {
   return new Promise((resolve) => {
@@ -12,19 +20,19 @@ function getData() {
 }
 
 export default function router(req, res) {
-
   return getData()
     .then(resp => {
-
       const html = renderToString(
-        <StaticRouter context={{}} location={req.url} >
-          {renderRoutes(routes)}
-        </StaticRouter>
+        <Provider store={store}>
+          <StaticRouter context={{}} location={req.url} >
+            {renderRoutes(routes)}
+          </StaticRouter>
+        </Provider>
       )
 
-      res.status(200).send(renderFullPage(html, {toto: true}))
+      res.status(200).send(renderFullPage(html, { toto: true }))
     })
-    .catch(err => res.status(404).send(`${err}: Oh No! I cannot find the telepathic pokemon... maybe they knew we were coming!`))
+    .catch(err => res.status(404).send(`${err}`))
 };
 
 function renderFullPage(html, preloadedState) {

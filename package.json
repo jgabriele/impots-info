@@ -14,11 +14,15 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "eslint": "^5.1.0",
+    "eslint-plugin-babel": "^5.1.0",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.18.2",
     "react-redux": "^5.0.7",
@@ -31,7 +35,8 @@
     "build": "babel ./app -d build",
     "build-dev": "babel ./app -d build --watch",
     "build:client": "webpack --config ./webpack.config.js/",
-    "build:client-dev": "webpack --config ./webpack.config.js/ --watch"
+    "build:client-dev": "webpack --config ./webpack.config.js/ --watch",
+    "lint": "eslint ./app"
   },
   "author": "Jeremy Gabriele"
 }
