@@ -10,10 +10,15 @@ import { setSalary, setMarriedStatus, setNbChildren, computeTax } from '../../st
 import styles from './styles'
 
 const CalculatorPage = ({ classes }) => (
-  <div className={classes.wrapper}>
-    <div className={classes.inputs}><CalculatorInputs /></div>
-    <div className={classes.results}><CalculatorResults /></div>
-  </div>
+  <Fragment>
+    Ce simulateur <strong>n'a pas</strong> été fait pour la classe aisée. Il ne prends pas en compte les limites maximum
+    à certains avantage et il se peut que le résultat donné soit faux si vous gagnez plus de 10000€/mois.
+    Enfin, avec ce revenu là j'imagine que votre comptable s'occupe déjà de calculer votre impôt ;)
+    <div className={classes.wrapper}>
+      <div className={classes.inputs}><CalculatorInputs /></div>
+      <div className={classes.results}><CalculatorResults /></div>
+    </div>
+  </Fragment>
 )
 
 export default injectSheet(styles)(CalculatorPage)

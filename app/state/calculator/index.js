@@ -58,7 +58,6 @@ export default function reducer(state = initialState, action) {
   case SET_MARRIED_STATUS:
     return {
       ...state,
-      parts: action.isMarried ? state.parts + 1 : state.parts - 1,
       tax: null,
       isMarried: action.isMarried
     }
@@ -70,9 +69,11 @@ export default function reducer(state = initialState, action) {
       nbChildren: action.nbChildren
     }
   case COMPUTE_TAX:
+    const tax = computeTaxAmount(state.salary.primary + state.salary.secondary, state.parts, state.isMarried)
     return {
       ...state,
-      tax: computeTaxAmount(state.salary.primary + state.salary.secondary, state.parts, state.isMarried).totalTax
+      ...tax,
+      tax: tax.totalTax
     }
   default:
     return state

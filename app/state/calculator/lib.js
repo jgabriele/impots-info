@@ -110,6 +110,7 @@ export default function computeTax(netPay, nbChildren = 0, isMarried) {
   const { taxesPerSlice, totalTaxByPart } = getTaxes(taxableAmount, mainParts, childrenParts)
 
   let totalTax = totalTaxByPart * parts
+  const initialTax = round(totalTax) // Tax without any reduction
 
   // Decote
   const decote = computeDecote(totalTax, isMarried)
@@ -126,6 +127,7 @@ export default function computeTax(netPay, nbChildren = 0, isMarried) {
 
   return {
     totalTax,
+    initialTax,
     decote: round(decote), // in €
     lowSalaryReduction: round(lowSalaryReduction), // in €
     lowSalaryReductionPercentage: round(lowSalaryReductionPercentage, 1), // in %

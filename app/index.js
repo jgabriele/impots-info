@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
@@ -16,7 +16,7 @@ const store = createStore(
   reducers, window.__INITIAL_STATE__, composeEnhancers(applyMiddleware(thunk))
 )
 
-render(
+hydrate(
   (
     <ThemeProvider theme={theme}>
       <Provider store={store}>

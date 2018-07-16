@@ -64,7 +64,7 @@ class CalculatorInputs extends React.PureComponent {
                 onChange={this.handleMarriedState}
               />
             }
-            label="Marié / PACSé"
+            label="Je suis marié(e) ou PACSé(e)"
           />
 
 
@@ -73,8 +73,8 @@ class CalculatorInputs extends React.PureComponent {
             <TextField
               type="number"
               label="Revenu annuel Net de votre partenaire"
-              value={salary.primary}
-              onChange={this.handleSetPrimarySalary}
+              value={salary.secondary}
+              onChange={this.handleSetSecondarySalary}
             />
           }
 

@@ -44,7 +44,8 @@ function renderFullPage(html, preloadedState) {
         <!doctype html>
         <html>
         <head>
-            <title>Mes impots</title>
+            <title>Comprendre l'impôt sur le revenu</title>
+            <meta name="description" content="Comprendre l'impôt sur le revenu" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         </head>

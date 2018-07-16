@@ -29,7 +29,7 @@ import styles from './styles'
 
 class CalculatorResults extends React.PureComponent {
   render () {
-    const { classes, tax, parts } = this.props
+    const { classes, tax, initialTax, decote, lowSalaryReduction, lowSalaryReductionPercentage, taxesPerSlice, parts, isMarried } = this.props
 
     if (tax === null) {
       return <div>Cliquez sur le bouton "calculer" pour connaître le montant de votre impôt</div>
@@ -37,15 +37,22 @@ class CalculatorResults extends React.PureComponent {
 
     return (
       <div>
-        Votre impôt sera de {tax}€ – Nombre de parts: {parts}
+        Votre impôt sera de {tax}€ (il aurait dû être d'environ {initialTax}€)
+        Decote: {decote}
+        réduction sous condition de revenu: {lowSalaryReduction} ({lowSalaryReductionPercentage}%)
+        {taxesPerSlice && taxesPerSlice.join(',')}
+        Nombre de parts: {parts + (isMarried ? 1 : 0)}
       </div>
     )
   }
 }
 
-function TaxAmount ({ value, parts }) {
+function TaxAmount ({ value, decote, lowSalaryReduction, lowSalaryReductionPercentage, taxesPerSlice, parts }) {
   return <div>
-    Votre impôt sera de {value}€
+    Votre impôt sera de {value}€.
+    Decote: {decote}
+    réduction sous condition de revenu: {lowSalaryReduction} ({lowSalaryReductionPercentage}%)
+    {taxesPerSlice}
     Nombre de parts: {parts}
   </div>
 }
