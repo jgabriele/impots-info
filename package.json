@@ -38,7 +38,8 @@
     "build-dev": "babel ./app -d build --watch",
     "build:client": "webpack --config ./webpack.config.js/",
     "build:client-dev": "webpack --config ./webpack.config.js/ --watch",
-    "lint": "eslint ./app"
+    "lint": "eslint ./app",
+    "test": "jest ./app"
   },
   "author": "Jeremy Gabriele"
 }
