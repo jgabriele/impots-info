@@ -1,6 +1,6 @@
 import { renderToString } from 'react-dom/server'
 import React from 'react'
-import { matchPath, StaticRouter } from 'react-router-dom'
+import { StaticRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -48,6 +48,11 @@ function renderFullPage(html, preloadedState) {
             <meta name="description" content="Comprendre l'impôt sur le revenu" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+            <style>
+              html, body {
+                margin: 0;
+              }
+            </style>
         </head>
         <body>
             <div id="app">${html}</div>

@@ -1,23 +1,37 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import injectSheet from 'react-jss'
+import { NavLink } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import routes from '../../routes'
 
-export default ({ route }) =>
-  (
+import styles, { activeStyle } from './styles'
+
+const App = ({ classes, route, location }) => {
+  if (location.pathname === '/') {
+    return renderRoutes(route.routes)
+  }
+
+  return (
     <div>
-      <nav>
-        <ul>
-          {
-            routes[0].routes
-              .map(r => (
-                <li key={r.path}>
-                  <Link to={r.path}>{r.title}</Link>
-                </li>
-              ))
-          }
-        </ul>
+      <nav className={classes.navigation}>
+        {
+          routes[0].routes
+            .map(r => (
+              <NavLink
+                key={r.path}
+                className={classes.link}
+                to={r.path}
+                exact
+                activeStyle={activeStyle}
+              >
+                {r.title}
+              </NavLink>
+            ))
+        }
       </nav>
       {renderRoutes(route.routes)}
     </div>
   )
+}
+
+export default injectSheet(styles)(App)
