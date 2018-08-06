@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import Switch from '@material-ui/core/Switch'
 
 import { setSalary, setMarriedStatus, setNbChildren, computeTax } from '../../../state/calculator'
+import TaxSlices from '../../../components/tax-slices'
 
 import styles from './styles'
 
@@ -35,12 +36,18 @@ class CalculatorResults extends React.PureComponent {
       return <div>Cliquez sur le bouton "calculer" pour connaître le montant de votre impôt</div>
     }
 
+    // hint: une demi-part liée à un enfant ne peut retirer que jusqu'a 1527E sur votre impot
+
     return (
       <div>
         Votre impôt sera de {tax}€ (il aurait dû être d'environ {initialTax}€)
+        <br />
         Decote: {decote}
-        réduction sous condition de revenu: {lowSalaryReduction} ({lowSalaryReductionPercentage}%)
-        {taxesPerSlice && taxesPerSlice.join(',')}
+        <br />
+        réduction sous condition de revenu: {lowSalaryReduction} ({lowSalaryReductionPercentage * 100}%)
+        <br />
+        <TaxSlices slices={taxesPerSlice} />
+        <br />
         Nombre de parts: {parts + (isMarried ? 1 : 0)}
       </div>
     )

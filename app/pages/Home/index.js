@@ -20,9 +20,8 @@ class Home extends React.PureComponent {
     return (
       <Fragment>
         <div className={classes.landing}>
-          <section className={classes.picture}>
-            <img />
-            (Picture)
+          <section className={classes.pictureWrapper}>
+            <img className={classes.picture} />
           </section>
           <section className={classes.cta}>
             <Typography variant="title" className={classes.title}>

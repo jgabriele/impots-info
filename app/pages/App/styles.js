@@ -25,8 +25,9 @@ export default theme => {
   return {
     navigation: {
       display: 'flex',
+      alignItems: 'center',
       margin: 0,
-      padding: '0 24px',
+      height: 64,
       background: theme.palette.primary.main,
       color: 'white'
     },

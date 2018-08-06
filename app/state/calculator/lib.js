@@ -1,10 +1,10 @@
 // Slices of taxes in 2018
 const TAXES = [
-  { from: 0, to: 9807, percentage: 0 },
-  { from: 9808, to: 27086, percentage: 0.14 },
-  { from: 27087, to: 72617, percentage: 0.30 },
-  { from: 72618, to: 153783, percentage: 0.41 },
-  { from: 153784, to: Infinity, percentage: 0.45 }
+  { from: 0, to: 9807, percentage: 0, maxTax: 0 },
+  { from: 9808, to: 27086, percentage: 0.14, maxTax: 2418.92 },
+  { from: 27087, to: 72617, percentage: 0.30, maxTax: 13659 },
+  { from: 72618, to: 153783, percentage: 0.41, maxTax: 33277.65 },
+  { from: 153784, to: Infinity, percentage: 0.45, maxTax: Infinity }
 ]
 
 // Tax threshold for extra reduction (decote)
@@ -38,38 +38,65 @@ export function calculateChildrenParts(nbChildren) {
   return nbChildren - 1
 }
 
+export function getSlices(tax) {
+  return TAXES
+    .reduce(
+      ({ remainingAmount, taxSlices }, slice) => {
+        if (remainingAmount === 0) {
+          return { taxSlices, remainingAmount }
+        }
+
+        const value = Math.min(remainingAmount, slice.maxTax)
+        return {
+          remainingAmount: Math.max(0, remainingAmount - slice.maxTax),
+          taxSlices: taxSlices.concat([
+            {
+              ...slice,
+              value,
+              taxPercentage: Math.round(value / slice.maxTax * 100) || 100
+            }
+          ])
+        }
+      }, { taxSlices: [], remainingAmount: tax }
+    )
+    .taxSlices
+}
+
 function _getTaxes(taxableAmount, totalParts) {
   const taxableAmountByPart = taxableAmount / totalParts
 
-  return TAXES.reduce(({ remainingAmount, taxesPerSlice, totalTaxByPart }, { from, to, percentage }) => {
-    if (remainingAmount === 0) {
-      return { remainingAmount, taxesPerSlice, totalTaxByPart }
-    }
+  return TAXES
+    .reduce(
+      ({ remainingAmount, taxesPerSlice, totalTaxByPart }, { from, to, percentage }) => {
+        if (remainingAmount === 0) {
+          return { remainingAmount, taxesPerSlice, totalTaxByPart }
+        }
 
-    const sliceAmount = to - from
-    const currentSliceAmount = Math.min(remainingAmount, sliceAmount)
-    const currentSliceTax = round(percentage * currentSliceAmount, 3)
-    const nextSliceAmount = Math.max(remainingAmount - sliceAmount, 0)
+        const sliceAmount = to - from
+        const currentSliceAmount = Math.min(remainingAmount, sliceAmount)
+        const currentSliceTax = round(percentage * currentSliceAmount, 3)
+        const nextSliceAmount = Math.max(remainingAmount - sliceAmount, 0)
 
-    return {
-      remainingAmount: nextSliceAmount,
-      taxesPerSlice: taxesPerSlice.concat([currentSliceTax]),
-      totalTaxByPart: totalTaxByPart + currentSliceTax
-    }
-  }, { remainingAmount: taxableAmountByPart, taxesPerSlice: [], totalTaxByPart: 0 })
+        return {
+          remainingAmount: nextSliceAmount,
+          taxesPerSlice: taxesPerSlice.concat([currentSliceTax * totalParts]),
+          totalTaxByPart: totalTaxByPart + currentSliceTax
+        }
+      },
+      { remainingAmount: taxableAmountByPart, taxesPerSlice: [], totalTaxByPart: 0 }
+    )
+    .totalTaxByPart
 }
 
 function getTaxes(taxableAmount, mainParts, childrenParts) {
   const parts = mainParts + childrenParts
-  const taxWithoutChildren = _getTaxes(taxableAmount, mainParts)
-  const taxAmountWithoutChildren = taxWithoutChildren.totalTaxByPart * mainParts
-  const taxWithChildren = _getTaxes(taxableAmount, parts)
-  const taxAmountWithChildren = taxWithChildren.totalTaxByPart * parts
-  const taxWithChildrenLimited = taxAmountWithoutChildren - (MAX_TAX_REDUCTION_PER_HALF_PART * 2 * childrenParts)
+  const taxWithoutChildren = _getTaxes(taxableAmount, mainParts) * mainParts
+  const taxWithChildren = _getTaxes(taxableAmount, parts) * parts
+  const taxWithChildrenLimited = taxWithoutChildren - (MAX_TAX_REDUCTION_PER_HALF_PART * 2 * childrenParts)
 
   // Tax reduction offered by children cannot excede MAX_TAX_REDUCTION_PER_HALF_PART
-  if (taxWithChildrenLimited > taxAmountWithChildren) {
-    return { ...taxWithChildren, totalTaxByPart: taxWithChildrenLimited / parts }
+  if (taxWithChildrenLimited > taxWithChildren) {
+    return taxWithChildrenLimited
   }
 
   return taxWithChildren
@@ -107,9 +134,10 @@ export default function computeTax(netPay, nbChildren = 0, isMarried) {
   const taxableAmount = netPay * 0.9
 
   // Compute tax slices
-  const { taxesPerSlice, totalTaxByPart } = getTaxes(taxableAmount, mainParts, childrenParts)
+  let totalTax = getTaxes(taxableAmount, mainParts, childrenParts)
 
-  let totalTax = totalTaxByPart * parts
+  const taxesPerSlice = getSlices(totalTax)
+
   const initialTax = round(totalTax) // Tax without any reduction
 
   // Decote

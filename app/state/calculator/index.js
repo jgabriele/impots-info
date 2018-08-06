@@ -35,7 +35,7 @@ export const computeTax = () => {
 
 const initialState = {
   salary: {
-    primary: 0,
+    primary: 30000,
     secondary: 0
   },
   isMarried: false,
@@ -69,7 +69,7 @@ export default function reducer(state = initialState, action) {
       nbChildren: action.nbChildren
     }
   case COMPUTE_TAX:
-    const tax = computeTaxAmount(state.salary.primary + state.salary.secondary, state.parts, state.isMarried)
+    const tax = computeTaxAmount(state.salary.primary + state.salary.secondary, state.nbChildren, state.isMarried)
     return {
       ...state,
       ...tax,

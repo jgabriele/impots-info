@@ -25,9 +25,13 @@ export default theme => {
       padding: '0 48px'
     },
 
-    picture: {
+    pictureWrapper: {
       ...flexCenter,
       flex: 1
+    },
+
+    picture: {
+      width: '70%'
     },
 
     cta: {
